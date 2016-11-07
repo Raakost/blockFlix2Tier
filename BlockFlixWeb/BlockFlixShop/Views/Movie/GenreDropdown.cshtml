@@ -1,0 +1,17 @@
+﻿@using BlockFlixDLL.Entities
+@model IEnumerable<Genre>
+
+<li class="dropdown genre-dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        Genres
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        @foreach (var item in Model)
+        {
+            <li>
+                <a href="@Url.Action("Index", "Movie", new {genreId = item.ID})">@item.Name</a>
+            </li>
+        }
+    </ul>
+</li>

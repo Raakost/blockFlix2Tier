@@ -1,0 +1,42 @@
+﻿@using BlockFlixShop.Models
+
+@{
+    var cart = Session["ShoppingCart"] != null ? ((ShoppingCart)Session["ShoppingCart"]) : new ShoppingCart();
+}
+
+@{ double totalAmount = 0;}
+@foreach (var movie in cart.GetMovies())
+            {
+                totalAmount = totalAmount + movie.Price;
+            }
+
+<li class="dropdown cart-dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+        @cart.GetMovies().Count item(s)
+        <span class="glyphicon glyphicon-shopping-cart"> </span> <span class="caret"> </span>
+    </a>
+    <ul class="dropdown-menu dropdown-cart" role="menu" id="cart-open">
+        @foreach (var order in cart.GetMovies())
+        {
+            <li>
+                <table class="cart-contents">
+                    <tr>
+                        <td class="cart-img">
+                            <img class="cart-img" src="@order.ImageURL" />
+                        </td>
+                        <td class="cart-movietitle">@order.Title</td>
+                        <td class="cart-movieprice">@order.Price</td>
+                        <td class="cart-deletebtn"><a href="@Url.Action("RemoveFromCart", "Movie", new { id = order.ID })" class="btn btn-xs btn-danger pull-right">X</a></td>
+                    </tr>
+                </table>
+                <hr />
+            </li>
+        }
+        <li>
+            <p class="pull-right">Total: @totalAmount</p>
+        </li>
+        <li>
+            <a class="btn btn-success btn-checkout" href=@Url.Action("CustomerByEmail","Customer")>Checkout</a>
+        </li>
+    </ul>
+</li>

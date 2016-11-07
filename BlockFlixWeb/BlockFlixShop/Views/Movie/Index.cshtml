@@ -1,0 +1,46 @@
+﻿@using BlockFlixDLL.Entities
+@model List<Movie>
+
+<div class="container ">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 col-sm-6 col-xs-12">
+
+                <div class="thumbnail img-responsive">
+                    <img src="@item.ImageURL">
+                    <!-- Trigger the modal with a button -->
+                    <button type="button" class="btn btn-default details-button" data-toggle="modal" data-target="#modal-details@(item.ID)">Details</button>
+                    <!-- Modal -->
+                    <div id="modal-details@(item.ID)" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">@item.Title</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Release year: @item.Year</p>
+                                    <p>
+                                        @foreach (var genre in item.Genres)
+                                        {
+                                            @genre.Name@Html.Raw("&nbsp;")
+                                        }
+                                    </p>
+                                    <p>@item.Price DKK</p>
+                                    <iframe width="427" height="240" src="@item.TrailerURL" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="/Movie/AddToCart/@(item.ID)" class="btn btn-primary btn-success" role="button">Add to cart</a>
+                                    <!--<button type="button" class="btn btn-default" onclick="">Add to Cart</button>-->
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
