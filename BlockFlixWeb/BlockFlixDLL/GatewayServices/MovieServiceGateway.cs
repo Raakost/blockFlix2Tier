@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace BlockFlixDLL.GatewayServices
             using (var client = new HttpClient())
             {
                 SetUpClientConnection(client);
-                HttpResponseMessage response = client.PostAsJsonAsync("api/wishes", t).Result;
+                HttpResponseMessage response = client.PostAsJsonAsync("api/movies", t).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     return response.Content.ReadAsAsync<Movie>().Result;
@@ -51,9 +52,10 @@ namespace BlockFlixDLL.GatewayServices
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = client.GetAsync("/api/movies").Result;
+                
 
                 response.EnsureSuccessStatusCode();
-                return response.Content.ReadAsAsync<List<Movie>>().Result;
+                return response.Content.ReadAsAsync<List<Movie>>().Result.ToList();
 
                 //    if (response.IsSuccessStatusCode)
                 //    {

@@ -21,7 +21,7 @@ namespace BlockFlixDLL.Repository
         {
             using (var ctx = new MovieShopContext())
             {
-                return ctx.Movies.FirstOrDefault(x => x.ID == id);
+                return ctx.Movies.Include("Genres").FirstOrDefault(x => x.ID == id);
             }
         }
 

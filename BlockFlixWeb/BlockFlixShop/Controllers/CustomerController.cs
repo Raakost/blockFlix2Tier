@@ -11,7 +11,7 @@ namespace BlockFlixShop.Controllers
 {
     public class CustomerController : Controller
     {
-        private IServiceGateway<Customer> _cm = new Facade().GetCustomerGateway();
+        private IServiceGateway<Customer> _cg = new Facade().GetCustomerGateway();
 
         [HttpGet]
         public ActionResult CreateNewCustomer()
@@ -23,7 +23,7 @@ namespace BlockFlixShop.Controllers
         [HttpPost]
         public ActionResult CreateNewCustomer(CreateCustomerViewModel t)
         {
-            var newCustomer = _cm.Create(t.Customer);
+            var newCustomer = _cg.Create(t.Customer);
             return RedirectToAction("OrderVerification", "Order", new { customerEmail = t.Customer.Email });
         }
 
@@ -37,7 +37,7 @@ namespace BlockFlixShop.Controllers
         [HttpPost]
         public ActionResult CustomerByEmail(string email)
         {
-            var customer = _cm.Get(email);
+            var customer = _cg.Get(email);
             if (customer != null)
             {
                 return RedirectToAction("OrderVerification", "Order", new { customerEmail = email });

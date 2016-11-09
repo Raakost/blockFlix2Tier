@@ -9,8 +9,8 @@ namespace BlockFlixDLL.Entities
     [Serializable]
     public class Order : AbstractEntity
     {
-        public virtual List<Movie> Movies { get; set; } 
-        public virtual Customer Customer { get; set; }
+        public  List<Movie> Movies { get; set; } 
+        public  Customer Customer { get; set; }
         public DateTime DateOfPurchase { get; set; }
     }
 }

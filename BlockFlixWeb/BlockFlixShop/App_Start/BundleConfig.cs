@@ -26,6 +26,18 @@ namespace BlockFlixShop
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            #region admin
+            bundles.Add(new ScriptBundle("~/Admin/bundles/bootstrap-select").Include(
+                "~/Areas/Admin//Scripts/bootstrap-select.js"));
+
+            bundles.Add(new StyleBundle("~/Admin/Content/bootstrap-select").Include(
+                "~/Areas/Admin//Content/bootstrap-select.css"));
+
+            bundles.Add(new StyleBundle("~/Admin/Content/css").Include(
+                      "~/Areas/Admin/Content/bootstrap.css",
+                      "~/Areas/Admin/Content/site.css"));
+            #endregion
         }
     }
 }

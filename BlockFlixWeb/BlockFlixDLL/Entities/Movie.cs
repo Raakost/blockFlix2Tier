@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace BlockFlixDLL.Entities
 {
-    [Serializable]
     public class Movie : AbstractEntity
     {
         public string Title { get; set; }

@@ -11,13 +11,13 @@ namespace BlockFlixShop.Controllers
 {
     public class MovieController : Controller
     {
-        private IServiceGateway<Movie> _mm = new Facade().GetMovieGateway();
-        private IServiceGateway<Genre> _gm = new Facade().GetGenreGateway();
+        private IServiceGateway<Movie> _mg = new Facade().GetMovieGateway();
+        private IServiceGateway<Genre> _gg = new Facade().GetGenreGateway();
 
         // GET: Movie
         public ActionResult Index(int? genreId)
         {
-            var movies = _mm.GetAll();
+            var movies = _mg.GetAll();
 
             if (genreId.HasValue)
             {
@@ -27,14 +27,14 @@ namespace BlockFlixShop.Controllers
         }
         public ActionResult RemoveFromCart(int id)
         {
-            var movie = _mm.Get(id);
+            var movie = _mg.Get(id);
             GetCart().RemoveMovie(movie);
             return RedirectToAction("Index", "Movie");
         }
 
         public ActionResult AddToCart(int id)
         {
-            var movie = _mm.Get(id);
+            var movie = _mg.Get(id);
             var cart = GetCart();
             cart.AddMovie(movie);
 
@@ -53,11 +53,11 @@ namespace BlockFlixShop.Controllers
 
         public ActionResult CartDropdown()
         {
-            return PartialView(/*GetCart()*/);
+            return PartialView();
         }
         public ActionResult GenreDropdown()
         {
-            return PartialView(_gm.GetAll());
+            return PartialView(_gg.GetAll());
         }
     }
 }

@@ -43,7 +43,7 @@ namespace BlockFlixDLL.GatewayServices
                 client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = client.GetAsync("/api/wishes").Result;
+                var response = client.GetAsync("/api/genres").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     return response.Content.ReadAsAsync<List<Genre>>().Result;
