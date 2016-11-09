@@ -11,8 +11,8 @@ namespace BlockFlixShop.Controllers
 {
     public class MovieController : Controller
     {
-        private IServiceGateway<Movie> _mm = new Facade().GetMovieManager();
-        private IServiceGateway<Genre> _gm = new Facade().GetGenreManager();
+        private IServiceGateway<Movie> _mm = new Facade().GetMovieGateway();
+        private IServiceGateway<Genre> _gm = new Facade().GetGenreGateway();
 
         // GET: Movie
         public ActionResult Index(int? genreId)

@@ -15,7 +15,7 @@ namespace BlockFlixAdmin.Controllers
     public class GenresController : Controller
     {
         private MovieShopContext db = new MovieShopContext();
-        private readonly IServiceGateway<Genre> _gm = new Facade().GetGenreManager(); //not currently being used, but needs to be.
+        private readonly IServiceGateway<Genre> _gm = new Facade().GetGenreGateway(); //not currently being used, but needs to be.
 
         // GET: Genres
         public ActionResult Index()

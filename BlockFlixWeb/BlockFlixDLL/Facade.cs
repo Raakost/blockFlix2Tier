@@ -15,22 +15,22 @@ namespace BlockFlixDLL
         private IServiceGateway<Customer> _customerServiceGateway;
         private IServiceGateway<Order> _orderServiceGateway;
 
-        public IServiceGateway<Genre> GetGenreManager()
+        public IServiceGateway<Genre> GetGenreGateway()
         {
             return _genreServiceGateway ?? (_genreServiceGateway = new GenreServiceGateway());
         }
 
-        public IServiceGateway<Movie> GetMovieManager()
+        public IServiceGateway<Movie> GetMovieGateway()
         {
             return _movieServiceGateway ?? (_movieServiceGateway = new MovieServiceGateway());
         }
 
-        public IServiceGateway<Customer> GetCustomerManager()
+        public IServiceGateway<Customer> GetCustomerGateway()
         {
             return _customerServiceGateway ?? (_customerServiceGateway = new CustomerServiceGateway());
         }
 
-        public IServiceGateway<Order> GetOrderManager()
+        public IServiceGateway<Order> GetOrderGateway()
         {
             return _orderServiceGateway ?? (_orderServiceGateway = new OrderServiceGateway());
         }

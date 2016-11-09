@@ -11,9 +11,9 @@ namespace BlockFlixShop.Controllers
 {
     public class OrderController : Controller
     {
-        private IServiceGateway<Customer> _cm = new Facade().GetCustomerManager();
-        private IServiceGateway<Order> _om = new Facade().GetOrderManager();
-        private IServiceGateway<Movie> _mm = new Facade().GetMovieManager();
+        private IServiceGateway<Customer> _cm = new Facade().GetCustomerGateway();
+        private IServiceGateway<Order> _om = new Facade().GetOrderGateway();
+        private IServiceGateway<Movie> _mm = new Facade().GetMovieGateway();
 
         private ShoppingCart GetCart()
         {

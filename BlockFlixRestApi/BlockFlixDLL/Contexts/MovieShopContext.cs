@@ -12,6 +12,7 @@ namespace BlockFlixDLL.Contexts
     {
         public MovieShopContext() : base("BlockFlix")
         {
+            Configuration.ProxyCreationEnabled = false;
             Database.SetInitializer(new MovieShopDbInitializer());
         }
 

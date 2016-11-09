@@ -11,7 +11,7 @@ namespace BlockFlixShop.Controllers
 {
     public class CustomerController : Controller
     {
-        private IServiceGateway<Customer> _cm = new Facade().GetCustomerManager();
+        private IServiceGateway<Customer> _cm = new Facade().GetCustomerGateway();
 
         [HttpGet]
         public ActionResult CreateNewCustomer()

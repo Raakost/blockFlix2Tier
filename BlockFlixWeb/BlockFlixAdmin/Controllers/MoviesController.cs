@@ -16,8 +16,8 @@ namespace BlockFlixAdmin.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly IServiceGateway<Movie> _mm = new Facade().GetMovieManager();
-        private readonly IServiceGateway<Genre> _gm = new Facade().GetGenreManager();
+        private  IServiceGateway<Movie> _mm = new Facade().GetMovieGateway();
+        private  IServiceGateway<Genre> _gm = new Facade().GetGenreGateway();
 
         [HttpGet]
         public ActionResult Index()
