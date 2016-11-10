@@ -10,13 +10,13 @@ namespace BlockFlixShop.Areas.Admin.Controllers
 {
     public class MoviesController : Controller
     {
-        private  IServiceGateway<Movie> _mm = new Facade().GetMovieGateway();
-        private  IServiceGateway<Genre> _gm = new Facade().GetGenreGateway();
+        private readonly IServiceGateway<Movie> _mg = new Facade().GetMovieGateway();
+        private readonly IServiceGateway<Genre> _gg = new Facade().GetGenreGateway();
 
         [HttpGet]
         public ActionResult Index()
         {
-            return View(_mm.GetAll());
+            return View(_mg.GetAll());
         }
 
         [HttpGet]
@@ -25,16 +25,13 @@ namespace BlockFlixShop.Areas.Admin.Controllers
             return View(new CreateMovieViewModel()
             {
                 Movie = new Movie(),
-                Genres = _gm.GetAll(),
+                Genres = _gg.GetAll()
             });
         }
 
-
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Title,Year,Price,ImageURL,TrailerURL, GenreId")]Movie movie, List<int> GenreId)//[Bind(Include = "ID,Title,Year,Price,ImageURL,TrailerURL")] Movie movie
+        public ActionResult Create([Bind(Include = "Title,Year,Price,ImageURL,TrailerURL, GenreId")]Movie movie, List<int> GenreId)
         {
 
             if (ModelState.IsValid)
@@ -44,10 +41,10 @@ namespace BlockFlixShop.Areas.Admin.Controllers
                 {
                     foreach (var i in GenreId)
                     {
-                        movie.Genres.Add(_gm.Get(i));
+                        movie.Genres.Add(_gg.Get(i));
                     }
                 }
-                _mm.Create(movie);
+                _mg.Create(movie);
             }
             return RedirectToAction("Index");
         }
@@ -56,27 +53,25 @@ namespace BlockFlixShop.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             {
-                var movie = _mm.GetAll().FirstOrDefault(x => x.ID == id);
+                var movie = _mg.GetAll().FirstOrDefault(x => x.ID == id);
                 if (movie == null) return RedirectToAction("Index");
                 return View(new EditMovieViewModel
                 {
                     Movie = movie,
-                    Genres = _gm.GetAll(),
+                    Genres = _gg.GetAll(),
                     GenreId = movie.Genres.Select(x => x.ID).ToList()
                 });
             }
 
         }
 
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Title,Year,Price,ImageURL,TrailerURL, GenreId")]Movie movie, List<int> GenreId)
         {
             if (GenreId != null)
-                movie.Genres = _gm.GetAll().Where(dbGenre => GenreId.Any(y => y == dbGenre.ID)).ToList();
-            _mm.Update(movie);
+                movie.Genres = _gg.GetAll().Where(dbGenre => GenreId.Any(y => y == dbGenre.ID)).ToList();
+            _mg.Update(movie);
 
             return RedirectToAction("Index");
         }
@@ -88,7 +83,7 @@ namespace BlockFlixShop.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = _mm.Get(id.Value);
+            Movie movie = _mg.Get(id.Value);
             if (movie == null)
             {
                 return HttpNotFound();
@@ -100,8 +95,8 @@ namespace BlockFlixShop.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Movie movie = _mm.Get(id);
-            _mm.Remove(movie);
+            Movie movie = _mg.Get(id);
+            _mg.Remove(movie);
             return RedirectToAction("Index");
         }
     }

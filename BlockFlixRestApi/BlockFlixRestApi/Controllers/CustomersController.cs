@@ -37,6 +37,20 @@ namespace BlockFlixRestApi.Controllers
             return Ok(customer);
         }
 
+        [HttpGet]
+        [Route("api/customers/GetCustomerByMail/{email}")]
+        [ResponseType(typeof(Customer))]
+        public IHttpActionResult GetCustomerByMail(string email)
+        {
+            Customer customer = _cr.Get(email);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(customer);
+        }
+
         [HttpPut]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutCustomer(Customer customer)

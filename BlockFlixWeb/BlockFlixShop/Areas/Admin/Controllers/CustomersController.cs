@@ -1,6 +1,10 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using BlockFlixDLL;
 using BlockFlixDLL.Contexts;
@@ -8,14 +12,29 @@ using BlockFlixDLL.Entities;
 
 namespace BlockFlixShop.Areas.Admin.Controllers
 {
-    public class GenresController : Controller
+    public class CustomersController : Controller
     {
-        private readonly IServiceGateway<Genre> _gg = new Facade().GetGenreGateway();
+        private readonly IServiceGateway<Customer> _cg = new Facade().GetCustomerGateway();
 
         [HttpGet]
         public ActionResult Index()
         {
-            return View(_gg.GetAll());
+            return View(_cg.GetAll());
+        }
+
+        [HttpGet]
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = _cg.Get(id.Value);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
         }
 
         [HttpGet]
@@ -26,14 +45,14 @@ namespace BlockFlixShop.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name")] Genre genre)
+        public ActionResult Create([Bind(Include = "ID,FirstName,LastName,Email,Phone")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                _gg.Create(genre);
+                _cg.Create(customer);
                 return RedirectToAction("Index");
             }
-            return View(genre);
+            return View(customer);
         }
 
         [HttpGet]
@@ -43,24 +62,24 @@ namespace BlockFlixShop.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Genre genre = _gg.Get(id.Value);
-            if (genre == null)
+            Customer customer = _cg.Get(id.Value);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(genre);
+            return View(customer);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name")] Genre genre)
+        public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,Email,Phone")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                _gg.Update(genre);
+                _cg.Update(customer);
                 return RedirectToAction("Index");
             }
-            return View(genre);
+            return View(customer);
         }
 
         [HttpGet]
@@ -70,22 +89,21 @@ namespace BlockFlixShop.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Genre genre = _gg.Get(id.Value);
-            if (genre == null)
+            Customer customer = _cg.Get(id.Value);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(genre);
+            return View(customer);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Genre genre = _gg.Get(id);
-            _gg.Remove(genre);
+            Customer customer = _cg.Get(id);
+            _cg.Remove(customer);
             return RedirectToAction("Index");
         }
-
     }
 }

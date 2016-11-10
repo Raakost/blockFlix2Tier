@@ -1,86 +1,85 @@
 ﻿@using BlockFlixAdmin.Models
-    @model EditMovieViewModel
+@model EditMovieViewModel
 
-    @{
-        var genreDropDown = new List<SelectListItem>();
-        foreach (var item in Model.Genres)
-        {
-            var selectListItem = new SelectListItem
-            {
-                Text = item.Name,
-                Value = item.ID.ToString(),
-                Selected = Model.Movie.Genres.Any(x => x.ID == item.ID)
-            };
-            genreDropDown.Add(selectListItem);
-        }
-    }
-
-    <h2>Edit</h2>
-
-    @using (Html.BeginForm("Edit", "Movies", FormMethod.Post))
+@{
+    var genreDropDown = new List<SelectListItem>();
+    foreach (var item in Model.Genres)
     {
-        @Html.AntiForgeryToken()
+        var selectListItem = new SelectListItem
+        {
+            Text = item.Name,
+            Value = item.ID.ToString(),
+            Selected = Model.Movie.Genres.Any(x => x.ID == item.ID)
+        };
+        genreDropDown.Add(selectListItem);
+    }
+}
 
-        <div class="form-horizontal">
-            <h4>@Model.Movie.Title</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<h2>Edit Movie</h2>
 
-            @Html.HiddenFor(model => model.Movie.ID)
+@using (Html.BeginForm("Edit", "Movies", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Movie.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Movie.Title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Movie.Title, "", new { @class = "text-danger" })
-                </div>
-            </div>
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Movie.Year, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Movie.Year, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Movie.Year, "", new { @class = "text-danger" })
-                </div>
-            </div>
+        @Html.HiddenFor(model => model.Movie.ID)
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Movie.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Movie.Price, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Movie.Price, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Movie.Genres, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.ListBoxFor(model => model.GenreId, genreDropDown, new { @class = "selectpicker" })
-                    @Html.ValidationMessageFor(model => model.Movie.Genres, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Movie.ImageURL, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Movie.ImageURL, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Movie.ImageURL, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Movie.TrailerURL, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Movie.TrailerURL, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Movie.TrailerURL, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <button type="submit" class="btn btn-default">Save</button>
-                    <a class="btn btn-default" href="@Url.Action("Index", "Movies")">Cancel</a>
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Movie.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Movie.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Movie.Title, "", new { @class = "text-danger" })
             </div>
         </div>
-    }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Movie.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Movie.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Movie.Year, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Movie.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Movie.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Movie.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Movie.Genres, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ListBoxFor(model => model.GenreId, genreDropDown, new { @class = "selectpicker" })
+                @Html.ValidationMessageFor(model => model.Movie.Genres, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Movie.ImageURL, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Movie.ImageURL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Movie.ImageURL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Movie.TrailerURL, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Movie.TrailerURL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Movie.TrailerURL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-default">Save</button>
+                <a class="btn btn-default" href="@Url.Action("Index", "Movies")">Cancel</a>
+            </div>
+        </div>
+    </div>
+}

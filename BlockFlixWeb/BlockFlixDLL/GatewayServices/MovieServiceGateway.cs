@@ -16,8 +16,7 @@ namespace BlockFlixDLL.GatewayServices
         {
             client.BaseAddress = new Uri("http://localhost:52164/");
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public Movie Create(Movie t)
@@ -41,39 +40,62 @@ namespace BlockFlixDLL.GatewayServices
 
         public Movie Get(int ID)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                SetUpClientConnection(client);
+                HttpResponseMessage response = client.GetAsync($"api/movies/{ID}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Movie>().Result;
+                }
+                return null;
+            }
         }
 
         public List<Movie> GetAll()
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:52164/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                var response = client.GetAsync("/api/movies").Result;
-                
-
-                response.EnsureSuccessStatusCode();
-                return response.Content.ReadAsAsync<List<Movie>>().Result.ToList();
-
-                //    if (response.IsSuccessStatusCode)
-                //    {
-                //        return response.Content.ReadAsAsync<List<Movie>>().Result;
-                //    }
-                //}
-                //return new List<Movie>();
+                SetUpClientConnection(client);
+                HttpResponseMessage response = client.GetAsync("/api/movies").Result;
+                response.EnsureSuccessStatusCode();               
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<List<Movie>>().Result;
+                }
             }
+            return null;
         }
+        
 
         public bool Remove(Movie t)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                SetUpClientConnection(client);
+                HttpResponseMessage response = client.DeleteAsync($"/api/movies/{t.ID}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Movie>().Result != null;
+                }
+                return false;
+            }
         }
 
         public Movie Update(Movie t)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                SetUpClientConnection(client);
+                HttpResponseMessage response = client.PutAsJsonAsync($"api/movies/{t.ID}", t).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Movie>().Result;
+                }
+                return null;
+            }
         }
+
     }
 }
+

@@ -11,10 +11,10 @@ namespace BlockFlixShop.Controllers
 {
     public class MovieController : Controller
     {
-        private IServiceGateway<Movie> _mg = new Facade().GetMovieGateway();
-        private IServiceGateway<Genre> _gg = new Facade().GetGenreGateway();
+        private readonly IServiceGateway<Movie> _mg = new Facade().GetMovieGateway();
+        private readonly IServiceGateway<Genre> _gg = new Facade().GetGenreGateway();
 
-        // GET: Movie
+        [HttpGet]
         public ActionResult Index(int? genreId)
         {
             var movies = _mg.GetAll();
