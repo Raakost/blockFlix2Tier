@@ -1,13 +1,20 @@
-﻿@model BlockFlixDLL.Entities.Order
+﻿@using ExchangeRate
+@model BlockFlixDLL.Entities.Order
 
 <h2>Your Order</h2>
 
 <div>
     <hr />
-
+    @{
+        double totalMoviePriceDKK = 0;
+        double totalMoviePriceUSD = 0;
+        double totalMoviePriceEUR = 0;
+    }
     @foreach (var movie in Model.Movies)
     {
-
+        totalMoviePriceDKK += movie.Price;
+        totalMoviePriceUSD += movie.GetPriceInDifferentCurrency(Iso4217.USD);
+        totalMoviePriceEUR += movie.GetPriceInDifferentCurrency(Iso4217.EUR);
         <div class="item-info">
             <span>@movie.Title</span>
             <span>@movie.Price</span>
@@ -16,78 +23,91 @@
             </span>
         </div>
         <hr />
-    }
-
-    <div class="form-horizontal">
-        <h2>Customer Information</h2>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Customer.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Customer.Email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.Customer.Email, "", new { @class = "text-danger" })
-            </div>
+    }<div class="item-info">
+        <span>
+            (Click to see the price in other currencies)
+        </span>
+    </div>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                @totalMoviePriceDKK DKK
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">@totalMoviePriceUSD $USD</a></li>
+                <li><a href="#">@totalMoviePriceEUR €EUR</a></li>
+            </ul>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Customer.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Customer.FirstName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.Customer.FirstName, "", new { @class = "text-danger" })
+        <div class="form-horizontal">
+            <h2>Customer Information</h2>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Customer.Email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Customer.Email, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Customer.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Customer.LastName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.Customer.LastName, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Customer.FirstName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Customer.FirstName, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Customer.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Customer.Phone, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.Customer.Phone, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Customer.LastName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Customer.LastName, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Customer.Address.Street, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Customer.Address.Street, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.Customer.Address.Street, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Customer.Phone, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Customer.Phone, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Customer.Address.StreetNr, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Customer.Address.StreetNr, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.Customer.Address.StreetNr, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.Address.Street, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Customer.Address.Street, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Customer.Address.Street, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Customer.Address.Floor, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Customer.Address.Floor, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.Customer.Address.Floor, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.Address.StreetNr, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Customer.Address.StreetNr, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Customer.Address.StreetNr, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Customer.Address.ZipCode, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Customer.Address.ZipCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.Customer.Address.ZipCode, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.Address.Floor, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Customer.Address.Floor, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Customer.Address.Floor, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2"></label>
-            <div class="col-md-10">
-                @using (Html.BeginForm("PlaceOrder", "Order", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("CustomerId", Model.Customer.ID)
-                    <button type="submit" class="btn btn-default" href="@Url.Action("PlaceOrder", "Order")">Place Order</button>
-                }
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.Address.ZipCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Customer.Address.ZipCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Customer.Address.ZipCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2"></label>
+                <div class="col-md-10">
+                    @using (Html.BeginForm("PlaceOrder", "Order", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("CustomerId", Model.Customer.ID)
+                        <button type="submit" class="btn btn-default" href="@Url.Action("PlaceOrder", "Order")">Place Order</button>
+                    }
+                </div>
             </div>
         </div>
     </div>
-</div>
