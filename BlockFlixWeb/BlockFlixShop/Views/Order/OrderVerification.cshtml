@@ -1,4 +1,5 @@
-﻿@using ExchangeRate
+﻿@using BlockFlixDLL.Entities
+@using BlockFlixDLL.GatewayServices
 @model BlockFlixDLL.Entities.Order
 
 <h2>Your Order</h2>
@@ -13,8 +14,6 @@
     @foreach (var movie in Model.Movies)
     {
         totalMoviePriceDKK += movie.Price;
-        totalMoviePriceUSD += movie.GetPriceInDifferentCurrency(Iso4217.USD);
-        totalMoviePriceEUR += movie.GetPriceInDifferentCurrency(Iso4217.EUR);
         <div class="item-info">
             <span>@movie.Title</span>
             <span>@movie.Price</span>
@@ -23,7 +22,13 @@
             </span>
         </div>
         <hr />
-    }<div class="item-info">
+    }
+    @{
+        CurrencyJSON currenciesJSON = ExchangeRateGateway.GetAll();
+        totalMoviePriceEUR = Math.Round(totalMoviePriceDKK / currenciesJSON.Currencies.DanishCurrency, 3); //Rate is EUR based
+        totalMoviePriceUSD = Math.Round(totalMoviePriceEUR * currenciesJSON.Currencies.USCurrency, 3); //Rate is EUR based
+    }
+    <div class="item-info">
         <span>
             (Click to see the price in other currencies)
         </span>

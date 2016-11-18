@@ -38,10 +38,6 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ExchangeRate, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\exchange-rate.1.0.3\lib\net452\ExchangeRate.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -65,12 +61,15 @@
     <Compile Include="Contexts\MovieShopDbInitializer.cs" />
     <Compile Include="Entities\AbstractEntity.cs" />
     <Compile Include="Entities\Address.cs" />
+    <Compile Include="Entities\Currency.cs" />
+    <Compile Include="Entities\CurrencyJSON.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Facade.cs" />
     <Compile Include="GatewayServices\CustomerServiceGateway.cs" />
+    <Compile Include="GatewayServices\ExchangeRateGateway.cs" />
     <Compile Include="GatewayServices\GenreServiceGateway.cs" />
     <Compile Include="GatewayServices\MovieServiceGateway.cs" />
     <Compile Include="GatewayServices\OrderServiceGateway.cs" />
