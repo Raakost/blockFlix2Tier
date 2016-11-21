@@ -62,6 +62,10 @@
       <Project>{cd354dee-715a-465e-bcb4-18c553516196}</Project>
       <Name>BlockFlixDLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BlockFlixShop\BlockFlixShop.csproj">
+      <Project>{7b1bd7cc-e586-43ab-8f6a-d1d94297bde7}</Project>
+      <Name>BlockFlixShop</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
